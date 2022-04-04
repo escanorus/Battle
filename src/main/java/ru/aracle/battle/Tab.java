@@ -20,48 +20,51 @@ import java.util.List;
 public class Tab implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-            String leader = Configuration.string("Permissions.leader");
-            if (sender.hasPermission(leader)) {
-                if (args.length > 0) {
-                    if (args[0].equals("start")) {
-                        start((Player) sender);
-                    }
-                    if (args[0].equals("pause")) {
-                        stop();
-                    }
-                    if (args[0].equals("reset")) {
-                        sender.sendActionBar(Components.LegacyComponent(Configuration.string("Messages.reset")));
-                        reset();
-                    }
-                    if (args[0].equals("continue")) {
-                        go();
-                    }
-                    if (args[0].equals("reload")) {
+        String leader = Configuration.string("Permissions.leader");
+        if (sender.hasPermission(leader)) {
+            if (args.length > 0) {
+                if (args[0].equals("start")) {
+                    start((Player) sender);
+                }
+                if (args[0].equals("pause")) {
+                    stop();
+                }
+                if (args[0].equals("reset")) {
+                    sender.sendActionBar(Components.LegacyComponent(Configuration.string("Messages.reset")));
+                    reset();
+                }
+                if (args[0].equals("continue")) {
+                    go();
+                }
+                if (args[0].equals("reload")) {
+                    reload();
+                    sender.sendActionBar(Components.LegacyComponent(Configuration.string("Messages.reload")));
+                }
+                if (args[0].equals("extra")) {
+                    if (args.length > 1) {
+                        int minute = Integer.parseInt(args[1]);
+                        if (Integer.parseInt(args[1]) > 60) {
+                            minute = 59;
+                        }
+                        Settings.get().set("Settings.Extra-minutes", minute);
+                        Settings.save();
                         reload();
-                        sender.sendActionBar(Components.LegacyComponent(Configuration.string("Messages.reload")));
-                    }
-                    if (args[0].equals("extra")) {
-                        if (args.length > 1) {
-                            int minute = Integer.parseInt(args[1]);
-                            if (Integer.parseInt(args[1]) > 60) {
-                                minute = 59;
-                            }
-                            Settings.get().set("Settings.Extra-minutes", minute);
-                            Settings.save();
-                            reload();
-                            int h = Configuration.integer("Optional.remaining-running-hours");
-                            int m = Configuration.integer("Optional.remaining-running-minutes");
-                            if (m+minute < 60 ) { m = m+minute; Settings.get().set("Optional.remaining-running-minutes", m); }
-                            else if (m+minute >= 60 ) { Settings.get().set("Optional.remaining-running-hours", h+1); Settings.get().set("Optional.remaining-running-minutes", m+minute-60); }
-                            Settings.save();
-                            reload();
-                            for (Player online : Bukkit.getServer().getOnlinePlayers()) {
-                                String title = Configuration.string("Messages.extra-time.title");
-                                String subtitle = Configuration.string("Messages.extra-time.subtitle").replace("%time%", format(0, minute, 0));
-                                final Title informing = Title.title(Components.LegacyComponent(title), Components.LegacyComponent(subtitle));
-                                online.showTitle(informing);
-                            }
+                        int h = Configuration.integer("Optional.remaining-running-hours");
+                        int m = Configuration.integer("Optional.remaining-running-minutes");
+                        if (m + minute < 60) {
+                            m = m + minute;
+                            Settings.get().set("Optional.remaining-running-minutes", m);
+                        } else if (m + minute >= 60) {
+                            Settings.get().set("Optional.remaining-running-hours", h + 1);
+                            Settings.get().set("Optional.remaining-running-minutes", m + minute - 60);
+                        }
+                        Settings.save();
+                        reload();
+                        for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+                            String title = Configuration.string("Messages.extra-time.title");
+                            String subtitle = Configuration.string("Messages.extra-time.subtitle").replace("%time%", format(0, minute, 0));
+                            final Title informing = Title.title(Components.LegacyComponent(title), Components.LegacyComponent(subtitle));
+                            online.showTitle(informing);
                         }
                     }
                 }
@@ -73,7 +76,7 @@ public class Tab implements TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> tabs = new ArrayList<>();
-        if (args.length == 1){
+        if (args.length == 1) {
             tabs.add("start");
             tabs.add("pause");
             tabs.add("reset");
@@ -83,7 +86,7 @@ public class Tab implements TabExecutor {
             return tabs;
         }
 
-        if (args.length == 2){
+        if (args.length == 2) {
             if (args[0].equals("extra")) {
                 tabs.add("5");
                 tabs.add("10");
@@ -289,6 +292,7 @@ public class Tab implements TabExecutor {
         reload();
         runningTimer();
     }
+
     public static void runningTimer() {
         String theme = Configuration.string("Settings.Theme");
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
@@ -370,7 +374,7 @@ public class Tab implements TabExecutor {
                         online.showTitle(informing);
                     }
                 }
-            }else {
+            } else {
                 end();
             }
         }, 0L, 20L);
