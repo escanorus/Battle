@@ -27,7 +27,7 @@ public class Tab implements TabExecutor {
                     if (args[0].equals("start")) {
                         start((Player) sender);
                     }
-                    if (args[0].equals("stop")) {
+                    if (args[0].equals("pause")) {
                         stop();
                     }
                     if (args[0].equals("reset")) {
@@ -75,7 +75,7 @@ public class Tab implements TabExecutor {
         List<String> tabs = new ArrayList<>();
         if (args.length == 1){
             tabs.add("start");
-            tabs.add("stop");
+            tabs.add("pause");
             tabs.add("reset");
             tabs.add("reload");
             tabs.add("extra");
