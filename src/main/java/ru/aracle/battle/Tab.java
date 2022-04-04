@@ -24,7 +24,7 @@ public class Tab implements TabExecutor {
         if (sender.hasPermission(leader)) {
             if (args.length > 0) {
                 if (args[0].equals("start")) {
-                    start((Player) sender);
+                    start(sender);
                 }
                 if (args[0].equals("pause")) {
                     stop();
@@ -170,7 +170,7 @@ public class Tab implements TabExecutor {
         }
     }
 
-    public static void start(Player player) {
+    public static void start(CommandSender player) {
         String status = Configuration.string("Optional.Battle-status");
         if (!status.equals("running") && !status.equals("preparing")) {
             int hour = Configuration.integer("Settings.Time.hours");
