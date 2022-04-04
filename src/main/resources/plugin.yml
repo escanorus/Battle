@@ -1,0 +1,10 @@
+name: Battle
+version: '${project.version}'
+main: ru.aracle.battle.Battle
+api-version: 1.18
+authors: [ aracle ]
+description: Plugin for Build Battle compititions
+commands:
+  battle:
+    description: Main pugin command
+    aliases: [ buildbattle, bb, b ]
