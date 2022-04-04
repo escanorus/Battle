@@ -231,9 +231,11 @@ public class Tab implements TabExecutor {
             if (Configuration.string("Optional.Battle-status").equals("preparing")) {
                 int m = Configuration.integer("Optional.remaining-preparing-minutes");
                 int s = Configuration.integer("Optional.remaining-preparing-seconds");
-                if (m != 0) {
-                    m = m - 1;
-                    s = 60;
+                if (s == 0) {
+                    if (m != 0) {
+                        m = m - 1;
+                        s = 60;
+                    }
                 }
                 if (s > 0) {
                     s--;

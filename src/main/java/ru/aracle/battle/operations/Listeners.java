@@ -84,7 +84,7 @@ public class Listeners implements Listener {
         String leader = Configuration.string("Permissions.leader");
         String judge = Configuration.string("Permissions.judge");
         if (!status.equals("running")) {
-            if (!player.hasPermission(leader) || !player.hasPermission(judge)) {
+            if (!player.hasPermission(leader) && !player.hasPermission(judge)) {
                 result = true;
             }
         }
