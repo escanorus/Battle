@@ -1,5 +1,14 @@
-# Battle
-Build Battle plugin for Colombino's server
+# Команды плагина:
+#### Алиасы: /buildbattle /b /bb / battle
+### Использование:
+#### /battle start - начать конкурс
+#### /battle stop - приостановить конкурс
+#### /battle continue - продолжить конкурс
+#### /battle reset - Переустановить и обнулить конкурс
+#### /battle reload - Применить изменения в sttings.yml *!!! применения не изменятся если статус конкурса - включен! Работайте с файлом при выключеном конкурсе. !!!*
+#### /battle extra [число] - добавить минуты к текущему таймеру.
+
+# Фаил settings.yml
 ```yml
 Settings:
 //Назанчить тему конкурса.
